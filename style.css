@@ -13,6 +13,8 @@
     --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     --border-color: #e0e0e0;
     --sidebar-bg: #fdfdfd; /* সাইডবারের জন্য নতুন ব্যাকগ্রাউন্ড */
+    --popup-bg: rgba(255, 255, 255, 0.95); /* পপআপের জন্য আধা-স্বচ্ছ সাদা */
+    --popup-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); /* পপআপ শ্যাডো */
 }
 
 html, body {
@@ -220,13 +222,6 @@ label {
     background-image: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
 }
 
-/* "বিস্তারিত দেখুন" বাটনটি সরানো হয়েছে, তাই এর CSS এখন দরকার নেই */
-/* .btn-success {
-    background-image: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-    display: block;
-    margin: 35px auto;
-} */
-
 .btn:hover {
     background-position: left center;
     transform: translateY(-5px);
@@ -282,21 +277,21 @@ label {
     position: fixed;
     top: 0;
     right: 0;
-    width: 350px; /* সাইডবারের প্রস্থ */
+    width: 350px;
     height: 100%;
     background-color: var(--sidebar-bg);
-    box-shadow: -8px 0 20px rgba(0, 0, 0, 0.15); /* বাম দিকে শ্যাডো */
-    transform: translateX(100%); /* প্রাথমিকভাবে স্ক্রিনের বাইরে রাখা */
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* স্মুথ ট্রানজিশন */
-    z-index: 1000; /* অন্য এলিমেন্টের উপরে রাখতে */
+    box-shadow: -8px 0 20px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1000;
     display: flex;
     flex-direction: column;
     padding-top: 20px;
-    overflow-y: auto; /* সাইডবারের কন্টেন্টের জন্য স্ক্রলবার */
+    overflow-y: hidden; /* সাইডবারের মূল কন্টেন্ট স্ক্রল হবে না */
 }
 
 .sidebar.is-open {
-    transform: translateX(0); /* সাইডবার দেখালে */
+    transform: translateX(0);
 }
 
 .sidebar-header {
@@ -306,7 +301,7 @@ label {
     padding: 15px 25px;
     border-bottom: 1px solid var(--border-color);
     margin-bottom: 20px;
-    background-color: #f0f8ff; /* হেডার ব্যাকগ্রাউন্ড */
+    background-color: #f0f8ff;
 }
 
 .sidebar-title {
@@ -316,34 +311,95 @@ label {
     font-weight: 700;
 }
 
-.graph-icon {
+/* গ্রাফ আইকন হেডার থেকে সরানো হয়েছে */
+/* .graph-icon {
     font-size: 1.8em;
     color: var(--secondary-color);
     margin-left: 10px;
-}
+} */
 
 .close-sidebar-btn {
     background: none;
     border: none;
     font-size: 1.8em;
-    color: #e74c3c; /* লাল রঙ */
+    color: #e74c3c;
     cursor: pointer;
     padding: 5px;
     transition: transform 0.2s ease-in-out;
 }
 
 .close-sidebar-btn:hover {
-    transform: rotate(90deg); /* হোভারে ঘুরবে */
+    transform: rotate(90deg);
 }
 
-.details-section, .user-manual {
-    margin-top: 0; /* সাইডবারের ভিতরে হওয়ায় মার্জিন ঠিক করা হয়েছে */
-    padding: 25px;
+/* সাইডবার মেনু স্টাইল */
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu-item {
+    background: none;
+    border: none;
+    padding: 15px 20px;
+    text-align: left;
+    font-size: 1.15em;
+    color: var(--text-color);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.sidebar-menu-item i {
+    margin-right: 12px;
+    font-size: 1.3em;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+.sidebar-menu-item:hover {
+    background-color: #e3f2fd; /* হালকা নীল হোভার */
+    color: var(--primary-color);
+}
+
+.sidebar-menu-item:hover i {
+    color: var(--primary-color);
+}
+
+.sidebar-menu-item.active {
+    background-color: var(--primary-color); /* সক্রিয় আইটেমের ব্যাকগ্রাউন্ড */
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+}
+
+.sidebar-menu-item.active i {
+    color: white;
+}
+
+/* সাইডবার কন্টেন্ট এর জন্য একটি ফ্লেক্স কন্টেইনার */
+.sidebar-content {
+    flex-grow: 1; /* অবশিষ্ট স্থান দখল করবে */
+    overflow-y: auto; /* কন্টেন্টের জন্য স্ক্রলবার */
+    padding: 0 20px; /* প্যাডিং যোগ করা হয়েছে */
+}
+
+
+.details-section, .user-manual, .graph-section {
+    margin-top: 0;
+    padding: 25px; /* সাইডবারের ভিতরের প্যাডিং */
     box-shadow: none; /* কার্ড শ্যাডো দরকার নেই সাইডবারের ভিতরে */
     border: none; /* বর্ডার দরকার নেই সাইডবারের ভিতরে */
+    background-color: transparent; /* সাইডবারের ভিতরের কার্ডের ব্যাকগ্রাউন্ড স্বচ্ছ করা হয়েছে */
 }
 
-.details-section h3 {
+.details-section h3, .user-manual h3, .graph-section h3 {
     font-size: 1.6em;
     border-bottom: 1px solid #cfd8dc;
     padding-bottom: 8px;
@@ -380,33 +436,133 @@ label {
     font-size: 1.2em;
 }
 
+/* গ্রাফ সেকশন স্টাইল */
+.graph-section {
+    padding: 20px; /* গ্রাফ সেকশনের প্যাডিং */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 300px; /* গ্রাফের সর্বোচ্চ প্রস্থ */
+    height: 300px; /* গ্রাফের উচ্চতা */
+    position: relative;
+    margin: 20px 0;
+}
+
+.chart-info {
+    font-size: 0.9em;
+    color: var(--subtle-text-color);
+    text-align: center;
+    margin-top: 15px;
+}
 
 /* মেনু টগল বাটন */
 .menu-toggle-btn {
     position: fixed;
-    top: 30px; /* উপরে ডান কোণায় */
+    top: 30px;
     right: 30px;
     background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 50%; /* গোলাকার বাটন */
-    width: 55px; /* সাইজ বাড়ানো হয়েছে */
+    border-radius: 50%;
+    width: 55px;
     height: 55px;
-    font-size: 1.8em; /* আইকন সাইজ বাড়ানো হয়েছে */
+    font-size: 1.8em;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, background-color 0.3s ease;
-    z-index: 1001; /* সাইডবারের উপরে রাখতে */
+    z-index: 1001;
 }
 
 .menu-toggle-btn:hover {
     background-color: #2980b9;
-    transform: scale(1.05); /* হোভারে সামান্য বড় হবে */
+    transform: scale(1.05);
 }
 
+/* পপআপ স্টাইল */
+.info-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* ডিম ব্যাকগ্রাউন্ড */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* সাইডবারের উপরে রাখতে */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.info-popup-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.info-popup-content {
+    background-color: var(--popup-bg);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: var(--popup-shadow);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    animation: popupFadeIn 0.4s ease-out; /* পপআপ অ্যানিমেশন */
+    color: var(--text-color);
+    line-height: 1.7;
+    border: 1px solid rgba(255, 255, 255, 0.5); /* হালকা সাদা বর্ডার */
+    backdrop-filter: blur(5px); /* ব্যাকগ্রাউন্ড ব্লার */
+}
+
+.close-popup-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    color: #e74c3c;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.close-popup-btn:hover {
+    transform: rotate(90deg);
+}
+
+.popup-title {
+    font-size: 2em;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.popup-content p {
+    margin-bottom: 15px;
+}
+
+.popup-content strong {
+    color: var(--secondary-color);
+}
+
+.popup-footer {
+    text-align: center;
+    font-style: italic;
+    color: var(--subtle-text-color);
+    margin-top: 25px;
+    font-size: 0.95em;
+    border-top: 1px dashed rgba(0, 0, 0, 0.2);
+    padding-top: 15px;
+}
 
 /* অ্যানিমেশন */
 @keyframes slideInFromTop {
@@ -431,6 +587,18 @@ label {
     }
 }
 
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
 /* প্রতিক্রিয়াশীল ডিজাইন */
 @media (max-width: 768px) {
     body {
@@ -440,7 +608,7 @@ label {
         padding: 20px;
         margin: 10px auto;
         border-radius: 15px;
-        height: calc(100vh - 40px); /* মোবাইল ডিভাইসের জন্য উচ্চতা ঠিক করা */
+        height: calc(100vh - 40px);
     }
     .title {
         font-size: 2em;
@@ -473,7 +641,7 @@ label {
         margin-bottom: 8px;
     }
     .input-field {
-        padding: 10px;
+        padding: 12px;
         font-size: 0.95em;
         border-radius: 8px;
     }
@@ -515,7 +683,7 @@ label {
 
     /* সাইডবার মোবাইল ডিভাইসের জন্য */
     .sidebar {
-        width: 280px; /* ছোট স্ক্রিনে সাইডবারের প্রস্থ কমানো হয়েছে */
+        width: 280px;
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
         padding-top: 10px;
     }
@@ -525,16 +693,26 @@ label {
     .sidebar-title {
         font-size: 1.5em;
     }
-    .graph-icon {
-        font-size: 1.5em;
-    }
     .close-sidebar-btn {
         font-size: 1.5em;
     }
-    .details-section, .user-manual {
+    .sidebar-menu {
+        padding: 0 15px;
+    }
+    .sidebar-menu-item {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+    .sidebar-menu-item i {
+        font-size: 1.1em;
+    }
+    .sidebar-content {
+        padding: 0 15px;
+    }
+    .details-section, .user-manual, .graph-section {
         padding: 15px;
     }
-    .details-section h3 {
+    .details-section h3, .user-manual h3, .graph-section h3 {
         font-size: 1.3em;
         margin-top: 15px;
         margin-bottom: 10px;
@@ -558,6 +736,19 @@ label {
         font-size: 1.5em;
         top: 20px;
         right: 20px;
+    }
+    /* পপআপ মোবাইল ডিভাইসের জন্য */
+    .info-popup-content {
+        padding: 25px;
+        border-radius: 15px;
+        width: 95%;
+    }
+    .popup-title {
+        font-size: 1.6em;
+        margin-bottom: 15px;
+    }
+    .close-popup-btn {
+        font-size: 1.5em;
     }
 }
 
@@ -587,7 +778,7 @@ label {
         display: none;
     }
     .sidebar {
-        width: 100%; /* ছোট স্ক্রিনে পুরো প্রস্থ নেবে */
+        width: 100%;
         padding-top: 5px;
     }
     .sidebar-header {
@@ -602,10 +793,10 @@ label {
     .close-sidebar-btn {
         font-size: 1.3em;
     }
-    .details-section, .user-manual {
+    .details-section, .user-manual, .graph-section {
         padding: 10px;
     }
-    .details-section h3 {
+    .details-section h3, .user-manual h3, .graph-section h3 {
         font-size: 1.1em;
     }
     .details-section ul li, .user-manual ol li {
