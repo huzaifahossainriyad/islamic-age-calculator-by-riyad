@@ -23,11 +23,17 @@ function calculateAge() {
         return;
     }
 
-    const dob = new Date(dobString);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // আজকের দিনটি সঠিক করার জন্য, সময়কে শূন্য করা হয়েছে
+    // একটি হেল্পার ফাংশন যা একটি তারিখের স্থানীয় সময় অনুযায়ী দিনের শুরু (মধ্যরাত ১২টা) সেট করে
+    const getStartOfDay = (date) => {
+        const d = new Date(date);
+        d.setHours(0, 0, 0, 0); // সময়কে মধ্যরাতে সেট করা
+        return d;
+    };
 
-    let startDate = new Date(dob);
+    const dob = getStartOfDay(dobString); // জন্ম তারিখের মধ্যরাত
+    const today = getStartOfDay(new Date()); // আজকের দিনের মধ্যরাত
+
+    let startDate = new Date(dob); // ক্যালকুলেশনের শুরুর তারিখ (প্রাথমিকভাবে জন্ম তারিখ)
     let calculationText = "";
 
     // ক্যালকুলেশনের ধরন অনুযায়ী শুরু তারিখ নির্ধারণ করা
@@ -44,6 +50,9 @@ function calculateAge() {
         calculationText = "জন্ম থেকে আজ পর্যন্ত";
     }
 
+    // নিশ্চিত করা যে startDate-ও মধ্যরাতে সেট করা আছে, যদি setFullYear এর কারণে সময় পরিবর্তিত হয়
+    startDate = getStartOfDay(startDate);
+
     // যদি শুরু তারিখ বর্তমান তারিখের পরে হয়, তাহলে এরর মেসেজ দেখানো
     if (startDate > today) {
         resultSection.innerHTML = `<p style="color: red; text-align: center;">সুবহানাল্লাহ! নির্বাচিত শুরু তারিখ বর্তমান তারিখের পরে হতে পারে না। অনুগ্রহ করে সঠিক জন্ম তারিখ এবং/অথবা ক্যালকুলেশনের ধরন নির্বাচন করুন।</p>`;
@@ -51,9 +60,11 @@ function calculateAge() {
         return;
     }
     
-    // মোট দিনের সংখ্যা হিসাব করা
-    // এখানে Math.round() ব্যবহার করা হয়েছে যাতে তারিখের একদম শুরুর সময় থেকে বর্তমান তারিখের শুরুর সময় পর্যন্ত পূর্ণ দিনের সংখ্যা আসে
-    const totalDays = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    // মোট দিনের সংখ্যা হিসাব করা (পূর্ণ দিনের পার্থক্য + 1 যাতে শুরুর দিনটিও হিসাবে আসে)
+    const oneDay = 1000 * 60 * 60 * 24; // একদিনের মিলিসেকেন্ড
+    const diffTime = Math.abs(today.getTime() - startDate.getTime());
+    // Math.floor ব্যবহার করে পূর্ণ দিনের পার্থক্য নেওয়া এবং +1 যোগ করা যাতে শুরুর দিনটিও গণনা করা হয়
+    const totalDays = Math.floor(diffTime / oneDay) + 1;
 
 
     const totalSalahCount = totalDays * 5;
