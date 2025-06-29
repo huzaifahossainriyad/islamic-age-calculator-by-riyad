@@ -60,11 +60,28 @@ function calculateAge() {
         return;
     }
     
-    // মোট দিনের সংখ্যা হিসাব করা (পূর্ণ দিনের পার্থক্য + 1 যাতে শুরুর দিনটিও হিসাবে আসে)
+    // মোট দিনের সংখ্যা হিসাব করা
+    let totalDays = 0;
     const oneDay = 1000 * 60 * 60 * 24; // একদিনের মিলিসেকেন্ড
-    const diffTime = Math.abs(today.getTime() - startDate.getTime());
-    // Math.floor ব্যবহার করে পূর্ণ দিনের পার্থক্য নেওয়া এবং +1 যোগ করা যাতে শুরুর দিনটিও গণনা করা হয়
-    const totalDays = Math.floor(diffTime / oneDay) + 1;
+
+    // তারিখগুলিকে বছরের ভিত্তিতে হিসাব করে যোগ করা হবে, যেভাবে ম্যানুয়ালি করা হয়েছে
+    if (startDate.getFullYear() === today.getFullYear()) {
+        // একই বছরের মধ্যে হলে শুধু দিনের পার্থক্য
+        totalDays = Math.round((today.getTime() - startDate.getTime()) / oneDay) + 1;
+    } else {
+        // শুরু বছরের বাকি দিন
+        const startYearEnd = new Date(startDate.getFullYear(), 11, 31);
+        totalDays += Math.round((startYearEnd.getTime() - startDate.getTime()) / oneDay) + 1;
+
+        // মধ্যবর্তী পূর্ণ বছরগুলোর দিন
+        for (let year = startDate.getFullYear() + 1; year < today.getFullYear(); year++) {
+            totalDays += (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) ? 366 : 365;
+        }
+
+        // বর্তমান বছরের পার হওয়া দিন
+        const currentYearStart = new Date(today.getFullYear(), 0, 1);
+        totalDays += Math.round((today.getTime() - currentYearStart.getTime()) / oneDay) + 1;
+    }
 
 
     const totalSalahCount = totalDays * 5;
@@ -90,17 +107,8 @@ function resetCalculator() {
     document.getElementById('resultSection').innerHTML = ''; // মেসেজও পরিষ্কার করা
 }
 
-// বিস্তারিত তথ্য সেকশন টoggle করার ফাংশন
-function toggleDetails() {
-    const detailsSection = document.getElementById('detailsSection');
-    const button = document.querySelector('.toggle-details-button');
-    if (detailsSection.style.display === 'none' || detailsSection.style.display === '') {
-        detailsSection.style.display = 'block'; // দেখাও
-        button.innerText = 'বিস্তারিত লুকান'; // বাটনের লেখা পরিবর্তন করো
-        button.style.backgroundColor = '#e74c3c'; // বাটনের রঙ লাল করো
-    } else {
-        detailsSection.style.display = 'none'; // লুকাও
-        button.innerText = 'বিস্তারিত দেখুন'; // বাটনের লেখা পরিবর্তন করো
-        button.style.backgroundColor = '#2ecc71'; // বাটনের রঙ সবুজ করো
-    }
+// সাইডবার টগল করার নতুন ফাংশন
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('is-open'); // 'is-open' ক্লাস যোগ/বাদ দেওয়া
 }
