@@ -18,8 +18,6 @@ function calculateAge() {
 
     // যদি জন্ম তারিখ ইনপুট না করা হয়, তাহলে অ্যালার্ট দেখানো
     if (!dobString) {
-        // alert() এর পরিবর্তে একটি কাস্টম মেসেজ বক্স বা ডিফল্ট বিহেভিয়ার
-        // একটি সুন্দর মেসেজ দেখানোর জন্য ফলাফল সেকশনের মধ্যে একটি বার্তা যোগ করা যেতে পারে
         resultSection.innerHTML = `<p style="color: red; text-align: center;">আলহামদুলিল্লাহ! অনুগ্রহ করে আপনার জন্ম তারিখ নির্বাচন করুন।</p>`;
         resultSection.style.display = 'block'; // মেসেজটি দেখানোর জন্য
         return;
@@ -53,9 +51,10 @@ function calculateAge() {
         return;
     }
     
-    // মোট দিনের সংখ্যা হিসাব করা (মিলিসেকেন্ড থেকে দিনে রূপান্তর)
-    const timeDiff = today.getTime() - startDate.getTime();
-    const totalDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // পূর্ণ দিন পেতে ceil ব্যবহার করা হয়েছে
+    // মোট দিনের সংখ্যা হিসাব করা
+    // এখানে Math.round() ব্যবহার করা হয়েছে যাতে তারিখের একদম শুরুর সময় থেকে বর্তমান তারিখের শুরুর সময় পর্যন্ত পূর্ণ দিনের সংখ্যা আসে
+    const totalDays = Math.round((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+
 
     const totalSalahCount = totalDays * 5;
 
@@ -77,15 +76,13 @@ function resetCalculator() {
     document.getElementById('dob').value = ''; // জন্ম তারিখ ইনপুট ফাঁকা করা
     document.getElementById('calculationType').value = 'birthToNow'; // ক্যালকুলেশন ধরন ডিফল্টে সেট করা
     document.getElementById('resultSection').style.display = 'none'; // ফলাফল সেকশন লুকানো
-    // প্রয়োজনে যদি অ্যালার্ট মেসেজ থাকে, তাও সরিয়ে ফেলা যেতে পারে
-    document.getElementById('resultSection').innerHTML = ''; 
+    document.getElementById('resultSection').innerHTML = ''; // মেসেজও পরিষ্কার করা
 }
 
-// বিস্তারিত তথ্য সেকশন টগল করার ফাংশন
+// বিস্তারিত তথ্য সেকশন টoggle করার ফাংশন
 function toggleDetails() {
     const detailsSection = document.getElementById('detailsSection');
     const button = document.querySelector('.toggle-details-button');
-    // যদি বিস্তারিত সেকশন লুকানো থাকে বা ডিসপ্লে সেট না থাকে
     if (detailsSection.style.display === 'none' || detailsSection.style.display === '') {
         detailsSection.style.display = 'block'; // দেখাও
         button.innerText = 'বিস্তারিত লুকান'; // বাটনের লেখা পরিবর্তন করো
