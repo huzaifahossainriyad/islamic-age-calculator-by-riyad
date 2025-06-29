@@ -12,6 +12,14 @@
     --card-bg: #ffffff;
     --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     --border-color: #e0e0e0;
+    --sidebar-bg: #fdfdfd; /* সাইডবারের জন্য নতুন ব্যাকগ্রাউন্ড */
+}
+
+html, body {
+    height: 100%; /* HTML এবং Body কে সম্পূর্ণ উচ্চতা দেওয়া হয়েছে */
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* মূল স্ক্রলবার নিয়ন্ত্রণ করা হয়েছে */
 }
 
 body {
@@ -19,28 +27,35 @@ body {
     background: var(--background-gradient);
     color: var(--text-color);
     line-height: 1.7;
-    margin: 0;
-    padding: 25px; /* প্যাডিং বাড়ানো হয়েছে */
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
+    padding: 25px;
     box-sizing: border-box;
-    overflow-x: hidden; /* অনুভূমিক স্ক্রলবার লুকানো হয়েছে */
+}
+
+.main-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* মূল কন্টেন্ট এবং সাইডবার মিলে যেন overflow না হয় */
+    position: relative;
 }
 
 .container {
     background-color: var(--card-bg);
-    padding: 45px; /* প্যাডিং আরও বাড়ানো হয়েছে */
+    padding: 45px;
     border-radius: 20px;
     box-shadow: var(--card-shadow);
     max-width: 1000px;
     width: 100%;
     box-sizing: border-box;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin: 30px auto; /* মার্জিন অটো করা হয়েছে যাতে কেন্দ্রে থাকে */
     position: relative;
-    overflow: hidden;
+    z-index: 1;
+    overflow-y: auto; /* কন্টেইনারের ভিতরে স্ক্রলবার */
+    height: calc(100vh - 60px); /* ভিউপোর্ট উচ্চতা থেকে প্যাডিং বাদ */
+    flex-shrink: 0; /* ছোট স্ক্রিনে সঙ্কুচিত না হওয়ার জন্য */
     animation: slideInFromTop 0.8s ease-out forwards; /* লোডিং অ্যানিমেশন */
 }
 
@@ -107,10 +122,10 @@ body {
 
 .card {
     background-color: var(--card-bg);
-    padding: 40px; /* প্যাডিং আরও বাড়ানো হয়েছে */
-    border-radius: 18px; /* আরও গোলাকার কোণা */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* শ্যাডো উন্নত করা হয়েছে */
-    margin-bottom: 40px; /* মার্জিন বাড়ানো হয়েছে */
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
     border: 1px solid var(--border-color);
     position: relative;
     z-index: 1;
@@ -124,7 +139,7 @@ body {
 
 .section-title {
     color: var(--text-color);
-    font-size: 2.5em; /* ফন্ট সাইজ আরও বাড়ানো হয়েছে */
+    font-size: 2.5em;
     margin-bottom: 30px;
     text-align: center;
     font-weight: 700;
@@ -138,62 +153,62 @@ body {
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    width: 70px; /* লাইন লম্বা করা হয়েছে */
-    height: 4px; /* লাইন মোটা করা হয়েছে */
+    width: 70px;
+    height: 4px;
     background-color: var(--secondary-color);
     border-radius: 2px;
 }
 
 .input-group {
-    margin-bottom: 28px; /* মার্জিন বাড়ানো হয়েছে */
+    margin-bottom: 28px;
 }
 
 label {
     display: block;
-    margin-bottom: 12px; /* মার্জিন বাড়ানো হয়েছে */
+    margin-bottom: 12px;
     font-weight: 600;
     color: var(--subtle-text-color);
-    font-size: 1.2em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
+    font-size: 1.2em;
 }
 
 .input-field {
-    width: calc(100% - 30px); /* প্যাডিং ও বর্ডারের জন্য অ্যাডজাস্ট করা হয়েছে */
-    padding: 15px; /* প্যাডিং বাড়ানো হয়েছে */
+    width: calc(100% - 30px);
+    padding: 15px;
     border: 1px solid #c0d9e4;
-    border-radius: 12px; /* আরও গোলাকার কোণা */
-    font-size: 1.1em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
+    border-radius: 12px;
+    font-size: 1.1em;
     box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    background-color: #fcfdff; /* হালকা ব্যাকগ্রাউন্ড */
+    background-color: #fcfdff;
 }
 
 .input-field:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.35); /* ফোকাস শ্যাডো আরও বাড়ানো হয়েছে */
+    box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.35);
     outline: none;
 }
 
 .button-group {
     display: flex;
     justify-content: center;
-    gap: 25px; /* বাটনগুলোর মধ্যে গ্যাপ বাড়ানো হয়েছে */
-    margin-top: 35px; /* মার্জিন বাড়ানো হয়েছে */
+    gap: 25px;
+    margin-top: 35px;
     flex-wrap: wrap;
 }
 
 .btn {
-    padding: 16px 40px; /* প্যাডিং বাড়ানো হয়েছে */
+    padding: 16px 40px;
     border: none;
-    border-radius: 12px; /* আরও গোলাকার কোণা */
-    font-size: 1.25em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
+    border-radius: 12px;
+    font-size: 1.25em;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.2px; /* অক্ষরের মধ্যে ফাঁকা আরও বাড়ানো হয়েছে */
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2); /* শ্যাডো আরও উন্নত করা হয়েছে */
+    letter-spacing: 1.2px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
     color: white;
-    background-size: 200% auto; /* গ্রেডিয়েন্ট অ্যানিমেশনের জন্য */
+    background-size: 200% auto;
     background-position: right center;
 }
 
@@ -205,44 +220,45 @@ label {
     background-image: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
 }
 
-.btn-success {
+/* "বিস্তারিত দেখুন" বাটনটি সরানো হয়েছে, তাই এর CSS এখন দরকার নেই */
+/* .btn-success {
     background-image: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
     display: block;
     margin: 35px auto;
-}
+} */
 
 .btn:hover {
-    background-position: left center; /* গ্রেডিয়েন্ট অ্যানিমেশন */
-    transform: translateY(-5px); /* হোভারে উপরে উঠানো */
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25); /* হোভার শ্যাডো আরও বাড়ানো */
-    opacity: 1; /* অপাসিটি ঠিক রাখা হয়েছে */
+    background-position: left center;
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25);
+    opacity: 1;
 }
 
 .result-section {
-    margin-top: 40px; /* মার্জিন বাড়ানো হয়েছে */
-    padding: 35px; /* প্যাডিং বাড়ানো হয়েছে */
-    background-color: #e8f5e9; /* হালকা সবুজ ব্যাকগ্রাউন্ড */
+    margin-top: 40px;
+    padding: 35px;
+    background-color: #e8f5e9;
     border-radius: 15px;
     border: 1px solid #c8e6c9;
     display: none;
-    animation: fadeIn 0.8s ease-out forwards; /* অ্যানিমেশন সময় বাড়ানো হয়েছে এবং শেষে থাকবে */
-    box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.08); /* ইনসেট শ্যাডো উন্নত করা হয়েছে */
+    animation: fadeIn 0.8s ease-out forwards;
+    box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.08);
 }
 
 .result-title {
-    color: #2e7d32; /* গাঢ় সবুজ */
-    font-size: 2.2em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
-    margin-bottom: 25px; /* মার্জিন বাড়ানো হয়েছে */
+    color: #2e7d32;
+    font-size: 2.2em;
+    margin-bottom: 25px;
     text-align: center;
     font-weight: 700;
 }
 
 .result-text {
-    margin-bottom: 15px; /* মার্জিন বাড়ানো হয়েছে */
-    font-size: 1.2em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
+    margin-bottom: 15px;
+    font-size: 1.2em;
     color: #424242;
-    padding-left: 15px; /* লেখাগুলো সামান্য ডানে সরানোর জন্য */
-    border-left: 5px solid #81c784; /* বাম দিকে একটি সবুজ লাইন মোটা করা হয়েছে */
+    padding-left: 15px;
+    border-left: 5px solid #81c784;
     line-height: 1.6;
 }
 
@@ -254,91 +270,143 @@ label {
 .kaza-info {
     font-style: italic;
     color: #616161;
-    margin-top: 30px; /* মার্জিন বাড়ানো হয়েছে */
+    margin-top: 30px;
     text-align: center;
-    font-size: 1.05em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
+    font-size: 1.05em;
     border-top: 1px dashed #bdbdbd;
-    padding-top: 20px; /* প্যাডিং বাড়ানো হয়েছে */
+    padding-top: 20px;
+}
+
+/* সাইডবারের স্টাইল */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px; /* সাইডবারের প্রস্থ */
+    height: 100%;
+    background-color: var(--sidebar-bg);
+    box-shadow: -8px 0 20px rgba(0, 0, 0, 0.15); /* বাম দিকে শ্যাডো */
+    transform: translateX(100%); /* প্রাথমিকভাবে স্ক্রিনের বাইরে রাখা */
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* স্মুথ ট্রানজিশন */
+    z-index: 1000; /* অন্য এলিমেন্টের উপরে রাখতে */
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    overflow-y: auto; /* সাইডবারের কন্টেন্টের জন্য স্ক্রলবার */
+}
+
+.sidebar.is-open {
+    transform: translateX(0); /* সাইডবার দেখালে */
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+    background-color: #f0f8ff; /* হেডার ব্যাকগ্রাউন্ড */
+}
+
+.sidebar-title {
+    font-size: 1.8em;
+    color: var(--primary-color);
+    margin: 0;
+    font-weight: 700;
+}
+
+.graph-icon {
+    font-size: 1.8em;
+    color: var(--secondary-color);
+    margin-left: 10px;
+}
+
+.close-sidebar-btn {
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    color: #e74c3c; /* লাল রঙ */
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.close-sidebar-btn:hover {
+    transform: rotate(90deg); /* হোভারে ঘুরবে */
 }
 
 .details-section, .user-manual {
-    margin-top: 45px; /* মার্জিন বাড়ানো হয়েছে */
-}
-
-.details-section {
-    display: none;
-    animation: fadeIn 0.8s ease-out forwards;
+    margin-top: 0; /* সাইডবারের ভিতরে হওয়ায় মার্জিন ঠিক করা হয়েছে */
+    padding: 25px;
+    box-shadow: none; /* কার্ড শ্যাডো দরকার নেই সাইডবারের ভিতরে */
+    border: none; /* বর্ডার দরকার নেই সাইডবারের ভিতরে */
 }
 
 .details-section h3 {
-    color: var(--text-color);
-    margin-top: 25px;
-    margin-bottom: 18px; /* মার্জিন বাড়ানো হয়েছে */
-    font-size: 1.8em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
-    font-weight: 700;
-    border-bottom: 2px solid #cfd8dc;
-    padding-bottom: 10px;
+    font-size: 1.6em;
+    border-bottom: 1px solid #cfd8dc;
+    padding-bottom: 8px;
+    margin-top: 20px;
 }
 
 .details-section ul {
-    list-style-type: none;
-    margin-left: 0;
-    padding-left: 0;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .details-section ul li {
-    margin-bottom: 12px;
-    position: relative;
-    padding-left: 30px; /* কাস্টম বুলেটের জন্য জায়গা */
+    margin-bottom: 8px;
+    padding-left: 25px;
 }
 
 .details-section ul li::before {
-    content: '\2714'; /* টিক মার্ক আইকন (Unicode) */
-    position: absolute;
-    left: 0;
-    color: var(--secondary-color);
-    font-weight: bold;
-    font-size: 1.3em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
-    top: 0px; /* পজিশন সামঞ্জস্য করা হয়েছে */
-}
-
-.details-section p {
-    margin-bottom: 15px; /* প্যাডিং বাড়ানো হয়েছে */
+    font-size: 1.1em;
 }
 
 .details-section p.reference {
-    text-align: right;
-    font-style: italic;
-    color: #7f8c8d;
-    margin-top: 35px; /* মার্জিন বাড়ানো হয়েছে */
-    font-size: 1em;
+    margin-top: 20px;
 }
 
 .user-manual ol {
-    list-style-type: none;
-    margin-left: 0;
-    padding-left: 0;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .user-manual ol li {
-    margin-bottom: 18px; /* মার্জিন বাড়ানো হয়েছে */
-    font-size: 1.15em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
-    position: relative;
-    padding-left: 35px; /* কাস্টম নাম্বারিং এর জন্য জায়গা */
+    margin-bottom: 12px;
+    padding-left: 30px;
 }
 
 .user-manual ol li::before {
-    content: counter(list-item) ".";
-    counter-increment: list-item;
-    position: absolute;
-    left: 0;
-    top: 0;
-    font-weight: bold;
-    color: var(--primary-color);
-    font-size: 1.3em; /* ফন্ট সাইজ বাড়ানো হয়েছে */
+    font-size: 1.2em;
 }
+
+
+/* মেনু টগল বাটন */
+.menu-toggle-btn {
+    position: fixed;
+    top: 30px; /* উপরে ডান কোণায় */
+    right: 30px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%; /* গোলাকার বাটন */
+    width: 55px; /* সাইজ বাড়ানো হয়েছে */
+    height: 55px;
+    font-size: 1.8em; /* আইকন সাইজ বাড়ানো হয়েছে */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    z-index: 1001; /* সাইডবারের উপরে রাখতে */
+}
+
+.menu-toggle-btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05); /* হোভারে সামান্য বড় হবে */
+}
+
 
 /* অ্যানিমেশন */
 @keyframes slideInFromTop {
@@ -366,15 +434,16 @@ label {
 /* প্রতিক্রিয়াশীল ডিজাইন */
 @media (max-width: 768px) {
     body {
-        padding: 15px;
+        padding: 10px;
     }
     .container {
-        padding: 25px;
-        margin: 15px;
+        padding: 20px;
+        margin: 10px auto;
         border-radius: 15px;
+        height: calc(100vh - 40px); /* মোবাইল ডিভাইসের জন্য উচ্চতা ঠিক করা */
     }
     .title {
-        font-size: 2.2em;
+        font-size: 2em;
         padding-bottom: 10px;
     }
     .title::after {
@@ -382,14 +451,14 @@ label {
         height: 4px;
     }
     .subtitle {
-        font-size: 1.2em;
+        font-size: 1.1em;
     }
     .card {
-        padding: 25px;
+        padding: 20px;
         border-radius: 12px;
     }
     .section-title {
-        font-size: 1.8em;
+        font-size: 1.6em;
         margin-bottom: 20px;
     }
     .section-title::after {
@@ -397,21 +466,21 @@ label {
         height: 3px;
     }
     .input-group {
-        margin-bottom: 20px;
+        margin-bottom: 18px;
     }
     label {
-        font-size: 1.05em;
+        font-size: 1em;
         margin-bottom: 8px;
     }
     .input-field {
-        padding: 12px;
-        font-size: 1em;
+        padding: 10px;
+        font-size: 0.95em;
         border-radius: 8px;
     }
     .button-group {
         flex-direction: column;
-        gap: 15px;
-        margin-top: 25px;
+        gap: 10px;
+        margin-top: 20px;
     }
     .btn {
         width: 100%;
@@ -440,55 +509,106 @@ label {
         border-left-width: 4px;
     }
     .kaza-info {
-        margin-top: 20px;
-        font-size: 0.9em;
+        margin-top: 15px;
+        font-size: 0.85em;
+    }
+
+    /* সাইডবার মোবাইল ডিভাইসের জন্য */
+    .sidebar {
+        width: 280px; /* ছোট স্ক্রিনে সাইডবারের প্রস্থ কমানো হয়েছে */
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        padding-top: 10px;
+    }
+    .sidebar-header {
+        padding: 10px 20px;
+    }
+    .sidebar-title {
+        font-size: 1.5em;
+    }
+    .graph-icon {
+        font-size: 1.5em;
+    }
+    .close-sidebar-btn {
+        font-size: 1.5em;
     }
     .details-section, .user-manual {
-        margin-top: 35px;
+        padding: 15px;
     }
     .details-section h3 {
-        font-size: 1.4em;
+        font-size: 1.3em;
+        margin-top: 15px;
         margin-bottom: 10px;
-        padding-bottom: 5px;
     }
     .details-section ul li, .user-manual ol li {
+        font-size: 0.95em;
+        margin-bottom: 8px;
+    }
+    .details-section ul li::before {
         font-size: 1em;
-        margin-bottom: 10px;
-    }
-    .details-section ul li::before, .user-manual ol li::before {
-        font-size: 1.1em;
-    }
-    .details-section ul li {
-        padding-left: 25px;
     }
     .user-manual ol li {
-        padding-left: 30px;
+        padding-left: 25px;
+    }
+    .user-manual ol li::before {
+        font-size: 1.1em;
+    }
+    .menu-toggle-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.5em;
+        top: 20px;
+        right: 20px;
     }
 }
 
-/* ছোট স্ক্রিনের জন্য অতিরিক্ত সামঞ্জস্য (মোবাইল) */
+/* অতিরিক্ত ছোট স্ক্রিনের জন্য সামঞ্জস্য (মোবাইল) */
 @media (max-width: 480px) {
     .container {
         padding: 15px;
-        margin: 10px;
+        margin: 5px auto;
     }
     .title {
         font-size: 1.8em;
     }
     .subtitle {
-        font-size: 1em;
+        font-size: 0.9em;
     }
     .section-title {
         font-size: 1.5em;
     }
     .btn {
-        padding: 12px 20px;
-        font-size: 1em;
+        padding: 10px 15px;
+        font-size: 0.9em;
     }
     .input-field {
-        padding: 10px;
+        padding: 8px;
     }
     .container::before, .container::after {
-        display: none; /* ছোট স্ক্রিনে ব্যাকগ্রাউন্ড শেপ লুকানো হয়েছে */
+        display: none;
+    }
+    .sidebar {
+        width: 100%; /* ছোট স্ক্রিনে পুরো প্রস্থ নেবে */
+        padding-top: 5px;
+    }
+    .sidebar-header {
+        padding: 10px 15px;
+    }
+    .sidebar-title {
+        font-size: 1.3em;
+    }
+    .graph-icon {
+        font-size: 1.3em;
+    }
+    .close-sidebar-btn {
+        font-size: 1.3em;
+    }
+    .details-section, .user-manual {
+        padding: 10px;
+    }
+    .details-section h3 {
+        font-size: 1.1em;
+    }
+    .details-section ul li, .user-manual ol li {
+        font-size: 0.85em;
     }
 }
